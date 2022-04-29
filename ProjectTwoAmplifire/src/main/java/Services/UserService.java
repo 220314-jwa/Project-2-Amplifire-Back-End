@@ -5,8 +5,8 @@ import java.util.List;
 
 import Beans.Book;
 import Beans.User;
-import Exception.AlreadyIssuedException;
-import Exception.IncorrectCredentialsException;
+import Exceptions.AlreadyIssuedException;
+import Exceptions.IncorrectCredentialsException;
 import Exceptions.UsernameAlreadyExistsException;
 
 /*- here we can lay out all of the behaviors that we want

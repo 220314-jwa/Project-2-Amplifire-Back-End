@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.junit.Test;
 
-import Exception.AlreadyIssuedException;
-import Exception.IncorrectCredentialsException;
+import Beans.Book;
+import Beans.User;
+import Exceptions.AlreadyIssuedException;
+import Exceptions.IncorrectCredentialsException;
 import Exceptions.UsernameAlreadyExistsException;
 
 
@@ -24,4 +26,4 @@ public interface UserServiceTests {
 	public Book getBookById(int id);
 	public User getUserById(int id);
 }
-}
+

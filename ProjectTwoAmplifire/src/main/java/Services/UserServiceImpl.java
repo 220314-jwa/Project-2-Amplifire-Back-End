@@ -4,8 +4,8 @@ import java.util.List;
 
 import Beans.Book;
 import Beans.User;
-import Exception.AlreadyIssuedException;
-import Exception.IncorrectCredentialsException;
+import Exceptions.AlreadyIssuedException;
+import Exceptions.IncorrectCredentialsException;
 import Exceptions.UsernameAlreadyExistsException;
 
 public class UserServiceImpl implements UserService{
