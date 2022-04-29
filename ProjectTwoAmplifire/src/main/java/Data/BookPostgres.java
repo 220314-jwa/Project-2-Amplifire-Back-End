@@ -23,7 +23,7 @@ public class BookPostgres implements BookDAO {
 		
         // this stores our sql command, that we would normally to DBeaver/command line
         //                             0   1     2        3            4    5
-        String sql = "insert into book (id, title, genre, description, return_date, issued_date, status)" +
+        String sql = "insert into book_collection (id, title, genre, description, return_date, issued_date, status)" +
                 "values (default, ?, ?, ?, ?, ?, ?)";
 
         try {
@@ -93,7 +93,7 @@ public class BookPostgres implements BookDAO {
         // ? placeholder for our id:
         // * means all fields
         // but we specify an id so we only get one single pet:
-        String sql = "SELECT * FROM book WHERE id = ?";
+        String sql = "SELECT * FROM book_collection WHERE id = ?";
 
         try (Connection connection = connFactory.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -116,7 +116,7 @@ public class BookPostgres implements BookDAO {
         // initialize empty Pet List:
         List<Book> books = new ArrayList<Book>();
 
-        String sql = "SELECT * FROM pet";
+        String sql = "SELECT * FROM book_collection";
         try (Connection connection = connFactory.getConnection()){
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             // get the result from our query:
@@ -161,7 +161,7 @@ public class BookPostgres implements BookDAO {
     public void update(Book updatedObj) throws SQLException {
     	Connection connection = connFactory.getConnection();
     	// we create the template for the SQL string:
-    	String sql = "update book set title = ?, genre = ?, description = ? where id = ?;";
+    	String sql = "update book_collection set title = ?, genre = ?, description = ? where id = ?;";
     	try {
         	PreparedStatement preparedStatement = connection.prepareStatement(sql);
         	// fill in the template:
@@ -204,7 +204,7 @@ public class BookPostgres implements BookDAO {
     public void delete(Book objToDelete) throws SQLException {
     	Connection connection = connFactory.getConnection();
     	
-    	String sql = "delete from book where id = ?;";
+    	String sql = "delete from book_collection where id = ?;";
     	try {
     		PreparedStatement preparedStatement = connection.prepareStatement(sql);
     		preparedStatement.setInt(1, objToDelete.getBookId());
@@ -236,7 +236,7 @@ public class BookPostgres implements BookDAO {
     public List<Book> getByStatus(String status) {
     	List<Book> books = new LinkedList<>();
     	try (Connection conn = connFactory.getConnection()) {
-    		String sql = "select * from book where status_id=?";
+    		String sql = "select * from book_collection where status_id=?";
     		PreparedStatement pStmt = conn.prepareStatement(sql);
     		// may need modified later if new statuses are added
     		int statusId = (status.equals("Available")?1:2);
@@ -258,7 +258,7 @@ public class BookPostgres implements BookDAO {
     public List<Book> getByRenter(User renter) {
     	List<Book> books = new LinkedList<>();
     	try (Connection conn = connFactory.getConnection()) {
-    		String sql = "select * from book join book_renter on book.id=book_renter.book_id"
+    		String sql = "select * from book_collection join book_renter on book_collection.id=book_renter.book_id"
     				+ " where book_renter.user_id=?";
     		PreparedStatement pStmt = conn.prepareStatement(sql);
     		pStmt.setInt(1, renter.getUserId());

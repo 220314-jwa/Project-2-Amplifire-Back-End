@@ -19,7 +19,7 @@ private static ConnectionFactory connFactory = ConnectionFactory.getConnectionFa
 		int generatedId = 0;
 		Connection conn = connFactory.getConnection();
 		try {
-			String sql = "insert into users (id, full_name, username, passwd)"
+			String sql = "insert into users (id, full_name, username, pass_word)"
 					+ " values (default,?,?,?)";
 			PreparedStatement pStmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 			pStmt.setString(1, newObj.getFullName());
@@ -88,7 +88,7 @@ private static ConnectionFactory connFactory = ConnectionFactory.getConnectionFa
 			// left join because we want ALL the people even if they don't have any pets.
 			// a full join would be fine too since everything in the pet_owner table
 			// will have a user associated with it, but a left join makes more sense logically
-			String sql = "select * from person left join pet_owner on person.id=pet_owner.owner_id";
+			String sql = "select * from users left join book_renter on users.id=book_renter.users_id";
 			Statement stmt = (Statement) conn.createStatement();
 			
 			ResultSet resultSet = ((java.sql.Statement) stmt).executeQuery(sql);
@@ -97,7 +97,7 @@ private static ConnectionFactory connFactory = ConnectionFactory.getConnectionFa
 				user.setUserId(resultSet.getInt("id"));
 				String fullName = resultSet.getString("full_name");
 				user.setUsername(resultSet.getString("username"));
-				user.setPassword(resultSet.getString("passwd"));
+				user.setPassword(resultSet.getString("pass_word"));
 				
 				BookDAO bookDao = DAOFactory.getBookDAO();
 				user.setBooks(bookDao.getByRenter(user));
@@ -115,7 +115,7 @@ private static ConnectionFactory connFactory = ConnectionFactory.getConnectionFa
 	public void update(User updatedObj) throws SQLException {
 		Connection conn = connFactory.getConnection();
 		try {
-			String sql = "update users set full_name=?, username=?, passwd=? "
+			String sql = "update users set full_name=?, username=?, pass_word=? "
 					+ "where id=?";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setString(1, updatedObj.getFullName());
@@ -154,7 +154,7 @@ private static ConnectionFactory connFactory = ConnectionFactory.getConnectionFa
 	public void delete(User objToDelete) throws SQLException {
 		Connection conn = connFactory.getConnection();
 		try {
-			String sql = "delete from user where id=?";
+			String sql = "delete from users where id=?";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setInt(1, objToDelete.getUserId());
 			
@@ -188,7 +188,7 @@ private static ConnectionFactory connFactory = ConnectionFactory.getConnectionFa
 	public User getByUsername(String username) {
 		User user = null;
 		try (Connection conn = connFactory.getConnection()) {
-			String sql = "select * from users left join book_renter on users.id=book_renter.renter_id"
+			String sql = "select * from users left join book_renter on users.id=book_renter.users_id"
 					+ " where users.username = ?";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setString(1, username);
@@ -199,7 +199,7 @@ private static ConnectionFactory connFactory = ConnectionFactory.getConnectionFa
 				user.setUserId(resultSet.getInt("id"));
 				String fullName = resultSet.getString("full_name");
 				user.setUsername(username);
-				user.setPassword(resultSet.getString("passwd"));
+				user.setPassword(resultSet.getString("pass_word"));
 				
 				BookDAO bookDao = DAOFactory.getBookDAO();
 				user.setBooks(bookDao.getByRenter(user));
@@ -215,7 +215,7 @@ private static ConnectionFactory connFactory = ConnectionFactory.getConnectionFa
 	public void updateBooks(int bookId, int userId) throws SQLException {
 		Connection conn = connFactory.getConnection();
 		try {
-			String sql = "insert into book_renter (book_id, renter_id) values (?,?)";
+			String sql = "insert into book_renter (book_id, users_id) values (?,?)";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setInt(1, bookId);
 			pStmt.setInt(2, userId);
