@@ -1,48 +1,63 @@
 package Controller;
 
+//import org.apache.logging.log4j.LogManager;
+//import org.apache.logging.log4j.Logger;
+
+import Beans.Book;
+import Beans.User;
+import Exceptions.AlreadyIssuedException;
+import Services.UserService;
+import Services.UserServiceImpl;
+
+import io.javalin.http.HttpCode;
+import io.javalin.http.Context;
+
 public class BooksController {
 	private static UserService userServ = new UserServiceImpl();
+	//private static Logger log = LogManager.getLogger(BooksController.class);
 
-	// POST to /users
-	public static void registerUser(Context ctx) {
-		User newUser = ctx.bodyAsClass(User.class);
-		
-		try {
-			newUser = userServ.register(newUser);
-			ctx.json(newUser);
-		} catch (UsernameAlreadyExistsException e) {
-			ctx.status(HttpCode.CONFLICT); // 409 conflict
+	// GET to /pets
+		public static void getPets(Context ctx) {
+			ctx.json(userServ.viewAvailableBooks());
 		}
-	}
-	
-	// POST to /auth
-	public static void logIn(Context ctx) {
-		Map<String,String> credentials = ctx.bodyAsClass(Map.class);
-		String username = credentials.get("username");
-		String password = credentials.get("password");
 		
-		try {
-			User user = userServ.logIn(username, password);
-			ctx.json(user);
-		} catch (IncorrectCredentialsException e) {
-			ctx.status(HttpCode.UNAUTHORIZED); // 401 unauthorized
+		// GET to /pets/{id} where {id} is the ID of the pet
+		public static void getBookById(Context ctx) {
+			//log.info("Request to get pet by ID");
+			try {
+				int id = Integer.parseInt(ctx.pathParam("id"));
+				//log.debug("getting pet with ID: " + id);
+				
+				Book book = userServ.getBookById(id);
+				//log.trace("calling userServ.getPetById with argument " + id);
+				//log.debug("pet retrieved: " + book);
+				if (book != null) {
+					//log.trace("writing pet to JSON");
+					ctx.json(book);
+				} else {
+					//log.warn("pet not found");
+					ctx.status(HttpCode.NOT_FOUND); // 404 not found
+				}
+			} catch (NumberFormatException e) {
+				//log.error(e.getMessage());
+			}
 		}
-	}
-	
-	// GET to /users/{id} where {id} is the user's id
-	public static void getUserById(Context ctx) {
-		String pathParam = ctx.pathParam("id");
-		if (pathParam != null && !pathParam.equals("undefined") && !pathParam.equals("null")) {
-			int userId = Integer.parseInt(pathParam);
+		
+		public static void bookToCheckout(Context ctx) {
+			int petId = Integer.parseInt(ctx.pathParam("id"));
+			Book bookToCheckout = userServ.getBookById(petId);
 			
-			User user = userServ.getUserById(userId);
-			if (user != null)
+			User user = ctx.bodyAsClass(User.class);
+			
+			try {
+				user = userServ.checkoutBook(user, bookToCheckout);
+				
 				ctx.json(user);
-			else
-				ctx.status(HttpCode.NOT_FOUND); // 404 not found
-		} else {
-			ctx.status(HttpCode.BAD_REQUEST); // 400 bad request
+			} catch (AlreadyIssuedException e) {
+				ctx.status(HttpCode.CONFLICT); // 409 conflict
+			} catch (Exception e) {
+				ctx.status(HttpCode.BAD_REQUEST); // 400 bad request
+			}
 		}
-	}
 
 }

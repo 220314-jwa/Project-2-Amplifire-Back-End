@@ -1,49 +1,56 @@
 package Controller;
 
+import java.util.Map;
+import Exceptions.IncorrectCredentialsException;
+import Exceptions.UsernameAlreadyExistsException;
+import Services.UserService;
+import Services.UserServiceImpl;
+import Beans.User;
+import io.javalin.http.Context;
+import io.javalin.http.HttpCode;
+
+
 public class UsersController {
 	private static UserService userServ = new UserServiceImpl();
-	private static Logger log = LogManager.getLogger(PetsController.class);
 
-	// GET to /pets
-	public static void getPets(Context ctx) {
-		ctx.json(userServ.viewAvailablePets());
-	}
-	
-	// GET to /pets/{id} where {id} is the ID of the pet
-	public static void getPetById(Context ctx) {
-		log.info("Request to get pet by ID");
+	// POST to /users
+	public static void registerUser(Context ctx) {
+		User newUser = ctx.bodyAsClass(User.class);
+		
 		try {
-			int id = Integer.parseInt(ctx.pathParam("id"));
-			log.debug("getting pet with ID: " + id);
-			
-			Pet pet = userServ.getPetById(id);
-			log.trace("calling userServ.getPetById with argument " + id);
-			log.debug("pet retrieved: " + pet);
-			if (pet != null) {
-				log.trace("writing pet to JSON");
-				ctx.json(pet);
-			} else {
-				log.warn("pet not found");
-				ctx.status(HttpCode.NOT_FOUND); // 404 not found
-			}
-		} catch (NumberFormatException e) {
-			log.error(e.getMessage());
+			newUser = userServ.register(newUser);
+			ctx.json(newUser);
+		} catch (UsernameAlreadyExistsException e) {
+			ctx.status(HttpCode.CONFLICT); // 409 conflict
 		}
 	}
 	
-	public static void adoptPet(Context ctx) {
-		int petId = Integer.parseInt(ctx.pathParam("id"));
-		Pet petToAdopt = userServ.getPetById(petId);
-		
-		User user = ctx.bodyAsClass(User.class);
+	// POST to /auth
+	public static void logIn(Context ctx) {
+		Map<String,String> credentials = ctx.bodyAsClass(Map.class);
+		String username = credentials.get("username");
+		String password = credentials.get("password");
 		
 		try {
-			user = userServ.adoptPet(user, petToAdopt);
-			
+			User user = userServ.logIn(username, password);
 			ctx.json(user);
-		} catch (AlreadyAdoptedException e) {
-			ctx.status(HttpCode.CONFLICT); // 409 conflict
-		} catch (Exception e) {
+		} catch (IncorrectCredentialsException e) {
+			ctx.status(HttpCode.UNAUTHORIZED); // 401 unauthorized
+		}
+	}
+	
+	// GET to /users/{id} where {id} is the user's id
+	public static void getUserById(Context ctx) {
+		String pathParam = ctx.pathParam("id");
+		if (pathParam != null && !pathParam.equals("undefined") && !pathParam.equals("null")) {
+			int userId = Integer.parseInt(pathParam);
+			
+			User user = userServ.getUserById(userId);
+			if (user != null)
+				ctx.json(user);
+			else
+				ctx.status(HttpCode.NOT_FOUND); // 404 not found
+		} else {
 			ctx.status(HttpCode.BAD_REQUEST); // 400 bad request
 		}
 	}

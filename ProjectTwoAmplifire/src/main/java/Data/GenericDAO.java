@@ -1,6 +1,9 @@
 package Data;
 
-public interface GenericDAO {
+import java.sql.SQLException;
+import java.util.List;
+
+public interface GenericDAO <T> {
 	// CRUD methods: create, read, update, delete
 		public int create(T newObj); // returns the generated ID
 		public T getById(int id); // read one

@@ -11,7 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 
-public class HomePage {
+public class LibraryAppHomePage {
 	WebDriver driver;
 	
 	// PageFactory allows you to use annotations to have Selenium instantiate your

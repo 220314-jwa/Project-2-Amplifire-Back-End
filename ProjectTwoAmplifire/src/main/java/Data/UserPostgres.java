@@ -1,5 +1,16 @@
 package Data;
 
+import java.beans.Statement;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
+
+import Beans.User;
+import Utility.ConnectionFactory;
+
 public class UserPostgres implements UserDAO {
 private static ConnectionFactory connFactory = ConnectionFactory.getConnectionFactory();
 	
@@ -8,13 +19,12 @@ private static ConnectionFactory connFactory = ConnectionFactory.getConnectionFa
 		int generatedId = 0;
 		Connection conn = connFactory.getConnection();
 		try {
-			String sql = "insert into person (full_name, username, passwd, role_id)"
-					+ " values (?,?,?,?)";
+			String sql = "insert into users (id, full_name, username, passwd)"
+					+ " values (default,?,?,?)";
 			PreparedStatement pStmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-			pStmt.setString(1, newObj.getFirstName() + " " + newObj.getLastName());
+			pStmt.setString(1, newObj.getFullName());
 			pStmt.setString(2, newObj.getUsername());
 			pStmt.setString(3, newObj.getPassword());
-			pStmt.setInt(4, 1);
 			
 			conn.setAutoCommit(false); // for ACID (transaction management)
 			pStmt.executeUpdate();
@@ -48,23 +58,21 @@ private static ConnectionFactory connFactory = ConnectionFactory.getConnectionFa
 	public User getById(int id) {
 		User user = null;
 		try (Connection conn = connFactory.getConnection()) {
-			String sql = "select * from person left join pet_owner on person.id=pet_owner.owner_id"
-					+ " where person.id = ?";
+			String sql = "select * from users left join book_renter on user.id=book_renter.book_id"
+					+ " where users.id = ?";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setInt(1, id);
 			
 			ResultSet resultSet = pStmt.executeQuery();
 			if (resultSet.next()) {
 				user = new User();
-				user.setId(id);
+				user.setUserId(id);
 				String fullName = resultSet.getString("full_name");
-				user.setFirstName(fullName.substring(0, fullName.indexOf(' ')));
-				user.setLastName(fullName.substring(fullName.indexOf(' ') + 1));
 				user.setUsername(resultSet.getString("username"));
 				user.setPassword(resultSet.getString("passwd"));
 				
-				PetDAO petDao = DAOFactory.getPetDAO();
-				user.setPets(petDao.getByOwner(user));
+				BookDAO bookDao = DAOFactory.getBookDAO();
+				user.setBooks(bookDao.getByRenter(user));
 			}
 			
 		} catch (SQLException e) {
@@ -81,20 +89,18 @@ private static ConnectionFactory connFactory = ConnectionFactory.getConnectionFa
 			// a full join would be fine too since everything in the pet_owner table
 			// will have a user associated with it, but a left join makes more sense logically
 			String sql = "select * from person left join pet_owner on person.id=pet_owner.owner_id";
-			Statement stmt = conn.createStatement();
+			Statement stmt = (Statement) conn.createStatement();
 			
-			ResultSet resultSet = stmt.executeQuery(sql);
+			ResultSet resultSet = ((java.sql.Statement) stmt).executeQuery(sql);
 			while (resultSet.next()) {
 				User user = new User();
-				user.setId(resultSet.getInt("id"));
+				user.setUserId(resultSet.getInt("id"));
 				String fullName = resultSet.getString("full_name");
-				user.setFirstName(fullName.substring(0, fullName.indexOf(' ')));
-				user.setLastName(fullName.substring(fullName.indexOf(' ') + 1));
 				user.setUsername(resultSet.getString("username"));
 				user.setPassword(resultSet.getString("passwd"));
 				
-				PetDAO petDao = DAOFactory.getPetDAO();
-				user.setPets(petDao.getByOwner(user));
+				BookDAO bookDao = DAOFactory.getBookDAO();
+				user.setBooks(bookDao.getByRenter(user));
 				
 				users.add(user);
 			}
@@ -109,14 +115,14 @@ private static ConnectionFactory connFactory = ConnectionFactory.getConnectionFa
 	public void update(User updatedObj) throws SQLException {
 		Connection conn = connFactory.getConnection();
 		try {
-			String sql = "update person set full_name=?, username=?, passwd=?, role_id=? "
+			String sql = "update users set full_name=?, username=?, passwd=? "
 					+ "where id=?";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
-			pStmt.setString(1, updatedObj.getFirstName() + " " + updatedObj.getLastName());
+			pStmt.setString(1, updatedObj.getFullName());
 			pStmt.setString(2, updatedObj.getUsername());
 			pStmt.setString(3, updatedObj.getPassword());
 			pStmt.setInt(4, 1);
-			pStmt.setInt(5, updatedObj.getId());
+			pStmt.setInt(5, updatedObj.getUserId());
 			
 			conn.setAutoCommit(false); // for ACID (transaction management)
 			int rowsUpdated = pStmt.executeUpdate();
@@ -148,9 +154,9 @@ private static ConnectionFactory connFactory = ConnectionFactory.getConnectionFa
 	public void delete(User objToDelete) throws SQLException {
 		Connection conn = connFactory.getConnection();
 		try {
-			String sql = "delete from person where id=?";
+			String sql = "delete from user where id=?";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
-			pStmt.setInt(1, objToDelete.getId());
+			pStmt.setInt(1, objToDelete.getUserId());
 			
 			conn.setAutoCommit(false); // for ACID (transaction management)
 			int rowsUpdated = pStmt.executeUpdate();
@@ -182,23 +188,21 @@ private static ConnectionFactory connFactory = ConnectionFactory.getConnectionFa
 	public User getByUsername(String username) {
 		User user = null;
 		try (Connection conn = connFactory.getConnection()) {
-			String sql = "select * from person left join pet_owner on person.id=pet_owner.owner_id"
-					+ " where person.username = ?";
+			String sql = "select * from users left join book_renter on users.id=book_renter.renter_id"
+					+ " where users.username = ?";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setString(1, username);
 			
 			ResultSet resultSet = pStmt.executeQuery();
 			if (resultSet.next()) {
 				user = new User();
-				user.setId(resultSet.getInt("id"));
+				user.setUserId(resultSet.getInt("id"));
 				String fullName = resultSet.getString("full_name");
-				user.setFirstName(fullName.substring(0, fullName.indexOf(' ')));
-				user.setLastName(fullName.substring(fullName.indexOf(' ') + 1));
 				user.setUsername(username);
 				user.setPassword(resultSet.getString("passwd"));
 				
-				PetDAO petDao = DAOFactory.getPetDAO();
-				user.setPets(petDao.getByOwner(user));
+				BookDAO bookDao = DAOFactory.getBookDAO();
+				user.setBooks(bookDao.getByRenter(user));
 			}
 			
 		} catch (SQLException e) {
@@ -208,12 +212,12 @@ private static ConnectionFactory connFactory = ConnectionFactory.getConnectionFa
 	}
 	
 	@Override
-	public void updatePets(int petId, int userId) throws SQLException {
+	public void updateBooks(int bookId, int userId) throws SQLException {
 		Connection conn = connFactory.getConnection();
 		try {
-			String sql = "insert into pet_owner (pet_id, owner_id) values (?,?)";
+			String sql = "insert into book_renter (book_id, renter_id) values (?,?)";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
-			pStmt.setInt(1, petId);
+			pStmt.setInt(1, bookId);
 			pStmt.setInt(2, userId);
 			
 			conn.setAutoCommit(false); // for ACID (transaction management)
@@ -240,5 +244,7 @@ private static ConnectionFactory connFactory = ConnectionFactory.getConnectionFa
 			}
 		}
 	}
+
+	
 
 }

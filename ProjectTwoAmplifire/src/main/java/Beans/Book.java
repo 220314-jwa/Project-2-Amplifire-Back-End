@@ -6,7 +6,8 @@ import java.util.Objects;
 public class Book {
 	// fields
 	private int bookId;
-	private LocalDate returnDate, issuedDate;
+	private LocalDate returnDate;
+	private LocalDate issuedDate;
 	private String title, genre, description, status;
 	
 	// constructor
