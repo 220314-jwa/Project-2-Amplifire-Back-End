@@ -14,11 +14,11 @@ public class ConnectionFactory {
 	// private - only this class can directly access
 	// static - it belongs to the class, rather than a specific instance (singleton
 	// design pattern)
-	private static Connection connectionFactory = null;
+	private static ConnectionFactory connectionFactory = null;
 	private static Properties properties;
 
 	private ConnectionFactory() {
-		InputStream stream = ConnectionFactory.class.getClassLoader().getResourceAsStream("database.properties");
+		InputStream stream = ConnectionFactory.class.getClassLoader().getResourceAsStream("dbConfig.properties");
 		try {
 			properties = new Properties();
 			properties.load(stream);
@@ -29,7 +29,7 @@ public class ConnectionFactory {
 
 	public static ConnectionFactory getConnectionFactory() {
 		if (connectionFactory == null)
-			connectionFactory = (Connection) new ConnectionFactory();
+			connectionFactory = new ConnectionFactory();
 		return (ConnectionFactory) connectionFactory;
 	}
 

@@ -236,11 +236,10 @@ public class BookPostgres implements BookDAO {
     public List<Book> getByStatus(String status) {
     	List<Book> books = new LinkedList<>();
     	try (Connection conn = connFactory.getConnection()) {
-    		String sql = "select * from book_collection where status_id=?";
+    		String sql = "select * from book_collection where status=?";
     		PreparedStatement pStmt = conn.prepareStatement(sql);
     		// may need modified later if new statuses are added
-    		int statusId = (status.equals("Available")?1:2);
-    		pStmt.setInt(1, statusId);
+    		pStmt.setString(1, status);
     		
     		ResultSet resultSet = pStmt.executeQuery();
     		while (resultSet.next()) {

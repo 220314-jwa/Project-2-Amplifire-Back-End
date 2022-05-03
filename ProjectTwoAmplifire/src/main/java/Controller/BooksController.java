@@ -17,7 +17,7 @@ public class BooksController {
 	//private static Logger log = LogManager.getLogger(BooksController.class);
 
 	// GET to /pets
-		public static void getPets(Context ctx) {
+		public static void getBooks(Context ctx) {
 			ctx.json(userServ.viewAvailableBooks());
 		}
 		

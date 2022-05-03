@@ -12,7 +12,7 @@ import Beans.User;
 import Utility.ConnectionFactory;
 
 public class UserPostgres implements UserDAO {
-private static ConnectionFactory connFactory = ConnectionFactory.getConnectionFactory();
+	private static ConnectionFactory connFactory = ConnectionFactory.getConnectionFactory();
 	
 	@Override
 	public int create(User newObj) {
