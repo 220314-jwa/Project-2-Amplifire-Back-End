@@ -3,19 +3,43 @@ package Models;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+@Entity
 public class Books {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column // the column annotation is unnecessary if the name is the same
 	private int bookId;
-	private String title, genre, description, status;
-	private LocalDate returnDate, issuedDate;
+	@Column
+	private String title;
+	@ManyToOne
+	@JoinColumn(name="genre")
+	private Genre genre;
+	@Column
+	private String description;
+	@ManyToOne
+	@JoinColumn(name="status_id")
+	private Status status;
+	@Column
+	private LocalDate returnDate;
+	@Column
+	private LocalDate issuedDate;
 	
 	public Books() {
 		bookId = 0;
 		title = "";
-		genre = "";
 		description = "";
-		status = "";
-		returnDate = 0;
-		issuedDate = 0;
+		genre = new Genre();
+		status = new Status();
+		returnDate = LocalDate.now();
+		issuedDate = LocalDate.now();
 	}
 
 	public int getBookId() {
@@ -34,11 +58,11 @@ public class Books {
 		this.title = title;
 	}
 
-	public String getGenre() {
+	public Genre getGenre() {
 		return genre;
 	}
 
-	public void setGenre(String genre) {
+	public void setGenre(Genre genre) {
 		this.genre = genre;
 	}
 
@@ -50,11 +74,11 @@ public class Books {
 		this.description = description;
 	}
 
-	public String getStatus() {
+	public Status getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(Status status) {
 		this.status = status;
 	}
 
@@ -77,12 +101,12 @@ public class Books {
 	@Override
 	public String toString() {
 		return "Books [bookId=" + bookId + ", title=" + title + ", genre=" + genre + ", description=" + description
-				+ ", status=" + status + "]";
+				+ ", status=" + status + ", returnDate=" + returnDate + ", issuedDate=" + issuedDate + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(bookId, description, genre, status, title);
+		return Objects.hash(bookId, description, genre, issuedDate, returnDate, status, title);
 	}
 
 	@Override
@@ -95,9 +119,13 @@ public class Books {
 			return false;
 		Books other = (Books) obj;
 		return bookId == other.bookId && Objects.equals(description, other.description)
-				&& Objects.equals(genre, other.genre) && Objects.equals(status, other.status)
+				&& Objects.equals(genre, other.genre) && Objects.equals(issuedDate, other.issuedDate)
+				&& Objects.equals(returnDate, other.returnDate) && Objects.equals(status, other.status)
 				&& Objects.equals(title, other.title);
 	}
+
+	
+	
 	
 	
 }

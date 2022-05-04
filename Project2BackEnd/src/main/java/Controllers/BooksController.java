@@ -13,6 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import Exceptions.AlreadyIssuedException;
+import Models.Books;
+import Models.Users;
+import Services.UserService;
+
 //RestController stereotype puts @ResponseBody on top of every method implicitly
 //(this means that the methods return resources instead of views)
 @RestController
@@ -34,14 +39,14 @@ public class BooksController {
 	@GetMapping
 	// @ResponseBody // tells Spring to skip the ViewResolver and just return a
 	// resource (rather than a view)
-	public ResponseEntity<List<Book>> getBooks() {
-		List<Book> books = userServ.viewAvailableBooks();
+	public ResponseEntity<List<Books>> getBooks() {
+		List<Books> books = userServ.viewAvailableBooks();
 		return ResponseEntity.ok(books);
 	}
 
 	@GetMapping(path = "/{bookId}")
-	public ResponseEntity<Book> getBookById(@PathVariable int bookId) {
-		Book book = userServ.getBookById(bookId);
+	public ResponseEntity<Books> getBookById(@PathVariable int bookId) {
+		Books book = userServ.getBookById(bookId);
 		if (book != null) {
 			return ResponseEntity.ok(book);
 		} else {
@@ -49,14 +54,13 @@ public class BooksController {
 		}
 	}
 
-	@PutMapping(path = "/{petId}/adopt")
-	public ResponseEntity<User> adoptPet(@PathVariable int petId, @RequestBody User user) {
-		Pet petToAdopt = userServ.getPetById(petId);
-
+	@PutMapping(path = "/{bookId}/checkout")
+	public ResponseEntity<Users> checkoutBook(@PathVariable int bookId, @RequestBody Users user) {
+		Books bookToCheckout= userServ.getBookById(bookId);
 		try {
-			user = userServ.adoptPet(user, petToAdopt);
+			user = userServ.checkoutBook(user, bookToCheckout);
 			return ResponseEntity.ok(user);
-		} catch (AlreadyAdoptedException e) {
+		} catch (AlreadyIssuedException e) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).build();
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().build();
