@@ -1,15 +1,17 @@
 package Controllers;
-
 import java.util.Map;
 
+import Services.UserServiceImpl;
+import org.springframework.stereotype.Controller;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 
 import Exceptions.IncorrectCredentialsException;
 import Models.Users;
@@ -20,9 +22,9 @@ import Services.UserService;
 @RequestMapping(path="/auth")
 @CrossOrigin(origins="http://localhost:4200")
 public class AuthControllers {
-	
+	@Autowired
 	private UserService userServ;
-	
+
 	public AuthControllers(UserService userServ) {
 		this.userServ = userServ;
 	}

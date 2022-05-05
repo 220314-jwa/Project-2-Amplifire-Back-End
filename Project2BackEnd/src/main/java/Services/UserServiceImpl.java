@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import Data.BookRepository;
 import Data.StatusRepository;
 import Data.UserRepository;
@@ -19,14 +18,15 @@ import Models.Users;
 
 @Service
 public class UserServiceImpl implements UserService{
-	
+	@Autowired
 	private UserRepository userRepo;
-	//@Autowired
+	@Autowired
 	private BookRepository bookRepo;
+	@Autowired
 	private StatusRepository statusRepo;
 
 	//Constructor injection
-	@Autowired // can skip the annotation if you only have one constructor
+	//@Autowired // can skip the annotation if you only have one constructor
 	public UserServiceImpl(UserRepository userRepo, BookRepository bookRepo, StatusRepository statusRepo) {
 		this.userRepo = userRepo;
 		this.bookRepo = bookRepo;

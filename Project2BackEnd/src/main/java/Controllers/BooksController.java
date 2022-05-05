@@ -24,6 +24,7 @@ import Services.UserService;
 @RequestMapping(path = "/books") // all endpoints in this class start with /books
 @CrossOrigin(origins = "http://localhost:4200") // where we're accepting requests from
 public class BooksController {
+	@Autowired
 	private UserService userServ;
 
 	@Autowired

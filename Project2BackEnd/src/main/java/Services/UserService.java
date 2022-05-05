@@ -10,17 +10,7 @@ import Exceptions.UsernameAlreadyExistsException;
 import Models.Books;
 import Models.Users;
 
-/*- here we can lay out all of the behaviors that we want
- * users to be able to do. services are just about the
- * services, or tasks, that we want to provide to users,
- * and the Java that makes those methods work.
- * 
- * it also allows for a separation between database code (DAOs),
- * HTTP handling code (Javalin), and the "business logic" or actual
- * functionality that users are doing (services). this idea is called
- * "separation of concerns" and allows you to have cleaner, more
- * organized, and more maintainable code.
- */
+
 
 public interface UserService {
 	public Users logIn(String username, String password) throws IncorrectCredentialsException;

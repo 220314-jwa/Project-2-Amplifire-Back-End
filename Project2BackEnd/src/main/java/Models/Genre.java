@@ -2,19 +2,15 @@ package Models;
 
 import java.util.Objects;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
-
 public class Genre {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public int id;
 	public String name;
-	
+
 	public Genre() {
 		id = 1;
 		name="Genre";

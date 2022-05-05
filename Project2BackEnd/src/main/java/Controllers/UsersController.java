@@ -26,7 +26,6 @@ import Services.UserService;
 @CrossOrigin(origins="http://localhost:4200") // where we're accepting requests from
 
 public class UsersController {
-
 	private static UserService userServ;
 	
 	@Autowired
