@@ -10,8 +10,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
-import Beans.Book;
-import Beans.User;
+import App.Model.Book;
+import App.Model.User;
 
 public class UserDAOTest {
 	private static UserDAO userDao = DAOFactory.getUserDAO();

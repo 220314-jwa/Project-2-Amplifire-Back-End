@@ -4,8 +4,8 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-import Beans.Book;
-import Beans.User;
+import App.Model.Book;
+import App.Model.User;
 import Data.BookDAO;
 import Data.DAOFactory;
 import Data.UserDAO;

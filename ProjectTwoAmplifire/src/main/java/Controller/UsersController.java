@@ -1,11 +1,12 @@
 package Controller;
 
 import java.util.Map;
+
+import App.Model.User;
 import Exceptions.IncorrectCredentialsException;
 import Exceptions.UsernameAlreadyExistsException;
 import Services.UserService;
 import Services.UserServiceImpl;
-import Beans.User;
 import io.javalin.http.Context;
 import io.javalin.http.HttpCode;
 

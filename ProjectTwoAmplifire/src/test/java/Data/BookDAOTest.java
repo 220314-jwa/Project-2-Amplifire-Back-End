@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
-import Beans.Book;
+import App.Model.Book;
 
 public class BookDAOTest {
 	private static BookDAO bookDao = DAOFactory.getBookDAO();
