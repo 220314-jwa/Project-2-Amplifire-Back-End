@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import Beans.Book;
-import Beans.User;
+import App.Model.Book;
+import App.Model.User;
 import Utility.ConnectionFactory;
 
 public class BookPostgres implements BookDAO {

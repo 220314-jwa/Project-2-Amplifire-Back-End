@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-import Beans.User;
+import App.Model.User;
 import Utility.ConnectionFactory;
 
 public class UserPostgres implements UserDAO {

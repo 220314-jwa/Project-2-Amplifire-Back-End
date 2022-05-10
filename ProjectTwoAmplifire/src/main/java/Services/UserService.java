@@ -2,9 +2,8 @@ package Services;
 
 import java.util.List;
 
-
-import Beans.Book;
-import Beans.User;
+import App.Model.Book;
+import App.Model.User;
 import Exceptions.AlreadyIssuedException;
 import Exceptions.IncorrectCredentialsException;
 import Exceptions.UsernameAlreadyExistsException;

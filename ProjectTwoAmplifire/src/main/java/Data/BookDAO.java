@@ -2,8 +2,8 @@ package Data;
 
 import java.util.List;
 
-import Beans.Book;
-import Beans.User;
+import App.Model.Book;
+import App.Model.User;
 
 public interface BookDAO extends GenericDAO<Book> {
 	public List<Book> getByStatus(String status);

@@ -1,4 +1,4 @@
-package com.example.Project2BackEnd;
+package dev.amplifire;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

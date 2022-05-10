@@ -1,10 +1,7 @@
 package Controller;
 
-//import org.apache.logging.log4j.LogManager;
-//import org.apache.logging.log4j.Logger;
-
-import Beans.Book;
-import Beans.User;
+import App.Model.Book;
+import App.Model.User;
 import Exceptions.AlreadyIssuedException;
 import Services.UserService;
 import Services.UserServiceImpl;

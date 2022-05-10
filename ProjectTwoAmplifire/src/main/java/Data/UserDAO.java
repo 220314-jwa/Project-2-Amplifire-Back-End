@@ -2,7 +2,7 @@ package Data;
 
 import java.sql.SQLException;
 
-import Beans.User;
+import App.Model.User;
 
 //we can set the generic's type here since we are inheriting it
 //i've set it to User so a class that implements this interface will
