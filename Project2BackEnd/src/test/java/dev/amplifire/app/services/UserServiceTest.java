@@ -1,4 +1,4 @@
-package Services;
+package dev.amplifire.app.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -23,16 +23,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import App.Project2BackEndApplication;
-import Data.BookRepository;
-import Data.StatusRepository;
-import Data.UserRepository;
-import Exceptions.IncorrectCredentialsException;
-import Exceptions.UsernameAlreadyExistsException;
-import Models.Books;
-import Models.Status;
-import Models.Users;
-import Services.UserService;
+import dev.amplifire.app.Project2BackEndApplication;
+import dev.amplifire.app.data.BookRepository;
+import dev.amplifire.app.data.StatusRepository;
+import dev.amplifire.app.data.UserRepository;
+import dev.amplifire.app.exceptions.IncorrectCredentialsException;
+import dev.amplifire.app.exceptions.UsernameAlreadyExistsException;
+import dev.amplifire.app.models.Books;
+import dev.amplifire.app.models.Status;
+import dev.amplifire.app.models.Users;
+import dev.amplifire.app.services.UserService;
 
 @SpringBootTest(classes=Project2BackEndApplication.class)
 public class UserServiceTest {
@@ -48,8 +48,8 @@ public class UserServiceTest {
 	@Test
 	public void logInSuccessfully() throws IncorrectCredentialsException {
 		// setup (arguments, expected result, etc.)
-		String username = "snicholes";
-		String password = "pass";
+		String username = "Vincent";
+		String password = "Davis";
 		
 		// mocking: we need to mock userDao.getByUsername(username)
 		// we're expecting a user with matching username & password
@@ -81,7 +81,7 @@ public class UserServiceTest {
 	
 	@Test
 	public void logInWrongPassword() {
-		String username = "snicholes";
+		String username = "Vincent";
 		String password = "1234567890";
 		
 		Users mockUser = new Users();

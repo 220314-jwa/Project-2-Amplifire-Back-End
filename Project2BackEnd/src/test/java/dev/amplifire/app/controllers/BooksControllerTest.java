@@ -1,4 +1,4 @@
-package Controllers;
+package dev.amplifire.app.controllers;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -19,17 +19,19 @@ import org.springframework.web.context.WebApplicationContext;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import App.Project2BackEndApplication;
-import Models.Books;
-import Services.UserService;
+import dev.amplifire.app.Project2BackEndApplication;
+import dev.amplifire.app.controllers.BooksController;
+import dev.amplifire.app.models.Books;
+import dev.amplifire.app.services.UserService;
 
 @SpringBootTest(classes=Project2BackEndApplication.class)
-public class BooksController {
+public class BooksControllerTest {
 	@MockBean
 	private UserService userServ;
 	@Autowired
-	private BooksController booksController;
-	@Autowired
+	private BooksControllerTest booksController;
+	@Autowired// tells the object is a dependency 
+	// IOC container responsible for instantiation, assembly, and mgmt of beans
 	private WebApplicationContext context;
 	
 	// to have more thorough testing, i'm going to have
@@ -38,6 +40,8 @@ public class BooksController {
 	
 	// sets up a mock of the spring mvc infrastructure
 	// and allows us to mock http requests
+	// Model-View_Controller framework is based on the use of a DispatcherServlet, 
+	// which uses a FrontContoller design pattern.
 	private MockMvc mockMvc;
 	
 	@BeforeEach

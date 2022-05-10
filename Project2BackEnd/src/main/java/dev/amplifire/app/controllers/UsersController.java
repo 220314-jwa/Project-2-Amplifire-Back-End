@@ -1,4 +1,4 @@
-package Controllers;
+package dev.amplifire.app.controllers;
 
 import java.util.Map;
 
@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import Exceptions.IncorrectCredentialsException;
-import Exceptions.UsernameAlreadyExistsException;
-import Models.Users;
-import Services.UserService;
+import dev.amplifire.app.exceptions.IncorrectCredentialsException;
+import dev.amplifire.app.exceptions.UsernameAlreadyExistsException;
+import dev.amplifire.app.models.Users;
+import dev.amplifire.app.services.UserService;
 
 //RestController stereotype puts @ResponseBody on top of every method implicitly
 //(this means that the methods return resources instead of views)

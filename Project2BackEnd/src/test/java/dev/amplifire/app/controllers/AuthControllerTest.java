@@ -1,4 +1,4 @@
-package Controllers;
+package dev.amplifire.app.controllers;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -20,9 +20,10 @@ import org.springframework.web.context.WebApplicationContext;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import App.Project2BackEndApplication;
-import Models.Users;
-import Services.UserService;
+import dev.amplifire.app.Project2BackEndApplication;
+import dev.amplifire.app.controllers.AuthControllers;
+import dev.amplifire.app.models.Users;
+import dev.amplifire.app.services.UserService;
 
 @SpringBootTest(classes=Project2BackEndApplication.class)
 public class AuthControllerTest {

@@ -1,22 +1,25 @@
-package Models;
+package dev.amplifire.app.models;
 
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Status {
+
+public class Genre {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public int id;
+	@Column(name="genre_name")
 	public String name;
 	
-	public Status() {
-		id=1;
-		name="Available";
+	public Genre() {
+		id = 1;
+		name="Genre";
 	}
 
 	public int getId() {
@@ -36,6 +39,11 @@ public class Status {
 	}
 
 	@Override
+	public String toString() {
+		return "Genre [id=" + id + ", name=" + name + "]";
+	}
+
+	@Override
 	public int hashCode() {
 		return Objects.hash(id, name);
 	}
@@ -48,14 +56,8 @@ public class Status {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Status other = (Status) obj;
+		Genre other = (Genre) obj;
 		return id == other.id && Objects.equals(name, other.name);
 	}
-
-	@Override
-	public String toString() {
-		return "Status [id=" + id + ", name=" + name + "]";
-	}
+	
 }
-
-

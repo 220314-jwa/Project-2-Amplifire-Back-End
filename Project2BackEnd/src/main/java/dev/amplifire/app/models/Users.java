@@ -1,4 +1,4 @@
-package Models;
+package dev.amplifire.app.models;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,13 +21,13 @@ public class Users {
 	private int id;
 	@Column
 	private String username;
-	@Column 
+	@Column(name="pass_word")
 	private String password;
-	@Column
+	@Column(name="full_name")
 	private String fullName;
 	@OneToMany
 	@JoinTable(name="book_renter",
-			joinColumns=@JoinColumn(name="renter_id"),
+			joinColumns=@JoinColumn(name="users_id"),
 			inverseJoinColumns=@JoinColumn(name="book_id"))
 	private List<Books> books;
 	

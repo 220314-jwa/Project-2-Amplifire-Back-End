@@ -1,14 +1,14 @@
-package Services;
+package dev.amplifire.app.services;
 
 import java.util.List;
 
 import org.apache.catalina.User;
 
-import Exceptions.AlreadyIssuedException;
-import Exceptions.IncorrectCredentialsException;
-import Exceptions.UsernameAlreadyExistsException;
-import Models.Books;
-import Models.Users;
+import dev.amplifire.app.exceptions.AlreadyIssuedException;
+import dev.amplifire.app.exceptions.IncorrectCredentialsException;
+import dev.amplifire.app.exceptions.UsernameAlreadyExistsException;
+import dev.amplifire.app.models.Books;
+import dev.amplifire.app.models.Users;
 
 /*- here we can lay out all of the behaviors that we want
  * users to be able to do. services are just about the

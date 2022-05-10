@@ -1,4 +1,4 @@
-package Services;
+package dev.amplifire.app.services;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -7,17 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import Data.BookRepository;
-import Data.StatusRepository;
-import Data.UserRepository;
-import Exceptions.AlreadyIssuedException;
-import Exceptions.IncorrectCredentialsException;
-import Exceptions.UsernameAlreadyExistsException;
-import Models.Books;
-import Models.Status;
-import Models.Users;
+import dev.amplifire.app.data.BookRepository;
+import dev.amplifire.app.data.StatusRepository;
+import dev.amplifire.app.data.UserRepository;
+import dev.amplifire.app.exceptions.AlreadyIssuedException;
+import dev.amplifire.app.exceptions.IncorrectCredentialsException;
+import dev.amplifire.app.exceptions.UsernameAlreadyExistsException;
+import dev.amplifire.app.models.Books;
+import dev.amplifire.app.models.Status;
+import dev.amplifire.app.models.Users;
 
-@Service
+@Service // stateless managed bean, performs tasks
 public class UserServiceImpl implements UserService{
 	
 	private UserRepository userRepo;
@@ -25,7 +25,8 @@ public class UserServiceImpl implements UserService{
 	private BookRepository bookRepo;
 	private StatusRepository statusRepo;
 
-	//Constructor injection
+	//Constructor injection - DI accomplished when the container invokes a constructor w/ arguments to instantiate a bean in which
+	// argument of said constructor represents a dependency.
 	@Autowired // can skip the annotation if you only have one constructor
 	public UserServiceImpl(UserRepository userRepo, BookRepository bookRepo, StatusRepository statusRepo) {
 		this.userRepo = userRepo;

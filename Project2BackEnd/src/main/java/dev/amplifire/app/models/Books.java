@@ -1,4 +1,4 @@
-package Models;
+package dev.amplifire.app.models;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -11,13 +11,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
+// JPA Annotations
 @Entity
 @Table(name="book_collection")
 public class Books {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column // the column annotation is unnecessary if the name is the same
+	@Column(name="book_id") // the column annotation is unnecessary if the name is the same
 	private int bookId;
 	@Column
 	private String title;
@@ -27,11 +27,11 @@ public class Books {
 	@Column
 	private String description;
 	@ManyToOne
-	@JoinColumn(name="status_id")
+	@JoinColumn(name="status")
 	private Status status;
-	@Column
+	@Column(name="return_date")
 	private LocalDate returnDate;
-	@Column
+	@Column(name="issued_date")
 	private LocalDate issuedDate;
 	
 	public Books() {

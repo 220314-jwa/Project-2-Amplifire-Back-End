@@ -1,4 +1,4 @@
-package Controllers;
+package dev.amplifire.app.controllers;
 
 import java.util.Map;
 
@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import Exceptions.IncorrectCredentialsException;
-import Models.Users;
-import Services.UserService;
+import dev.amplifire.app.exceptions.IncorrectCredentialsException;
+import dev.amplifire.app.models.Users;
+import dev.amplifire.app.services.UserService;
 
 
-@RestController
-@RequestMapping(path="/auth")
-@CrossOrigin(origins="http://localhost:4200")
+@RestController // responseBody above all methods 
+@RequestMapping(path="/auth") // endpoints 
+@CrossOrigin(origins="http://localhost:4200") // specifies where you receive request from
 public class AuthControllers {
 	
 	private UserService userServ;
@@ -26,9 +26,10 @@ public class AuthControllers {
 		this.userServ = userServ;
 	}
 	@PostMapping
-	public ResponseEntity<Users> login(@RequestBody Map<String, String> credentials) {
+	// ResponseEntity represents the whole HTTP response: status code, headers, and body
+	public ResponseEntity<Users> logIn(@RequestBody Map<String, String> credentials) { 
 		String username = credentials.get("username");
-		String password = credentials.get("password");
+		String password = credentials.get("pass_word");
 		
 		try {
 			Users user = userServ.logIn(username, password);

@@ -1,11 +1,11 @@
-package Data;
+package dev.amplifire.app.data;
 
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import Models.Books;
+import dev.amplifire.app.models.Books;
 
 //usually stereotypes go over classes, but in this case, it goes over the interface
 //because we will not be writing the classes (spring data will)
