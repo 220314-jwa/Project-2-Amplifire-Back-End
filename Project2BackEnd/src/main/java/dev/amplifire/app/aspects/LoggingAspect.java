@@ -8,8 +8,8 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
 
-@Component
-@Aspect
+@Component // basic stereotype to add this into the Spring IoC container
+@Aspect // says this is an aspect class (a class with advice)
 public class LoggingAspect {
 private Logger log;
 	
@@ -33,5 +33,38 @@ private Logger log;
 		log.info(targetedMethod.getSignature().toShortString() + " returned " + returnedObj);
 		return returnedObj;
 	}
+
+	/*
+	@Before("execution(* com.revature.petapp..* (..))")
+	public void beforeAdvice() {
+		System.out.println("ADVICE HAPPENING BEFORE THE METHOD");
+	}
+	@After("everything()") // "everything()" refers to the method that the pointcut is on
+	public void afterAdvice() {
+		System.out.println("ADVICE HAPPENING AFTER THE METHOD");
+	}
+	@AfterThrowing("everything()")
+	public void afterThrowingAdvice() {
+		System.out.println("ADVICE HAPPENING AFTER AN EXCEPTION IS THROWN");
+	}
+	@AfterReturning("everything()")
+	public void afterReturningAdvice() {
+		System.out.println("ADVICE HAPPENING AFTER THE METHOD IS SUCCESSFUL");
+	}
+	@Around("everything()")
+	public Object aroundAdvice(ProceedingJoinPoint targetedMethod) throws Throwable {
+		System.out.println("AROUND ADVICE BEFORE THE METHOD");
+		// with around advice, we actually have to tell the method when it's allowed
+		// to actually run, otherwise it won't, and we also have to return the 
+		// returned object or the method won't return anything
+		Object returnObj = targetedMethod.proceed();
+		System.out.println("AROUND ADVICE AFTER METHOD BUT BEFORE RETURNING");
+		return returnObj;
+	}
+	
+	// reusable pointcut
+	@Pointcut("execution(* com.revature.petapp..* (..))")
+	public void everything() {} // hook method (empty method to put an annotation on)
+	*/
 
 }
