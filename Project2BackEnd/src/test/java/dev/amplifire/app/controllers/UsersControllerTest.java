@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -39,7 +40,7 @@ public class UsersControllerTest {
 	public void setUp() {
 		mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
 	}
-	
+	@Test
 	public void getUsersByIdSuccessfully() throws JsonProcessingException, Exception {
 		Users mockUser = userServ.getUserById(0);
 		when(userServ.getUserById(0)).thenReturn(mockUser);
