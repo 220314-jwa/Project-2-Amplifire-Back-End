@@ -2,6 +2,7 @@ package dev.amplifire.app.controllers;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.util.Collections;
@@ -23,6 +24,7 @@ import dev.amplifire.app.Project2BackEndApplication;
 import dev.amplifire.app.controllers.BooksController;
 import dev.amplifire.app.models.Books;
 import dev.amplifire.app.models.Status;
+import dev.amplifire.app.models.Users;
 import dev.amplifire.app.services.UserService;
 
 @SpringBootTest(classes=Project2BackEndApplication.class)
@@ -87,6 +89,18 @@ public class BooksControllerTest {
 			.andExpect(status().isOk())
 			.andExpect(content().json(jsonMapper.writeValueAsString(mockBooksList.contains(testTitle))));
 		
+	}
+	
+	@Test
+	public void putCheckoutBookSuccessfully() throws JsonProcessingException, Exception {
+		List<Books> mockBookList = Collections.emptyList();
+		Books mockCheckoutBook = userServ.getBookById(0);
+		Users mockUser = userServ.getUserById(0);
+		when(userServ.checkoutBook(mockUser, mockCheckoutBook)).thenReturn(mockUser);
+		
+		mockMvc.perform(put("/books/checkout"))
+			.andExpect(status().isOk())
+			.andExpect(content().json(jsonMapper.writeValueAsString(mockUser.getBooks().equals(mockBookList.contains(mockCheckoutBook)))));
 	}
 	
 	
