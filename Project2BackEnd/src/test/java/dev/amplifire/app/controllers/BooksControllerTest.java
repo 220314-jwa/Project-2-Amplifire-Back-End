@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.amplifire.app.Project2BackEndApplication;
 import dev.amplifire.app.controllers.BooksController;
 import dev.amplifire.app.models.Books;
+import dev.amplifire.app.models.Status;
 import dev.amplifire.app.services.UserService;
 
 @SpringBootTest(classes=Project2BackEndApplication.class)
@@ -75,5 +76,19 @@ public class BooksControllerTest {
 			.andExpect(content().json(jsonMapper.writeValueAsString(mockBooksList.contains(mockId))));
 		
 	}
+	
+	@Test
+	public void getByTitleSuccessfully() throws JsonProcessingException, Exception {
+		String testTitle = "";
+		List<Books> mockBooksList = Collections.emptyList();
+		when(userServ.searchBookByTitle(testTitle)).thenReturn(mockBooksList);
+		
+		mockMvc.perform(get("/books/title"))
+			.andExpect(status().isOk())
+			.andExpect(content().json(jsonMapper.writeValueAsString(mockBooksList.contains(testTitle))));
+		
+	}
+	
+	
 
 }
