@@ -15,6 +15,8 @@
 	<description>Online Library System</description>
 	<properties>
 		<java.version>11</java.version>
+		<selenium.version>4.1.3</selenium.version>
+		<webdrivermanager.version>4.3.1</webdrivermanager.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -46,6 +48,18 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>4.1.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-edge-driver</artifactId>
+			<version>4.1.3</version>
+		</dependency>
+
+
 	</dependencies>
 
 	<build>
