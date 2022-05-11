@@ -63,5 +63,17 @@ public class BooksControllerTest {
 		// and expects a 200 (OK) status code and the body to be
 		// the JSON of the mockPetsList
 	}
+	
+	@Test
+	public void getBooksByIdSuccessfully() throws JsonProcessingException, Exception {
+		List<Books> mockBooksList = Collections.emptyList();
+		Books mockId = userServ.getBookById(0);
+		when(userServ.viewAvailableBooks().contains(mockId)).thenReturn(mockBooksList.contains(mockId));
+		
+		mockMvc.perform(get("/books/{id}"))
+			.andExpect(status().isOk())
+			.andExpect(content().json(jsonMapper.writeValueAsString(mockBooksList.contains(mockId))));
+		
+	}
 
 }
