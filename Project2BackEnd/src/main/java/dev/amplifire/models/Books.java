@@ -27,12 +27,13 @@ public class Books {
 
 
 
+
     public Books() {
         bookId = 0;
         title = "";
         description = "";
         genre = new Genre();
-        status = new Status();
+        status = new Status(1, "Available");
         returnDate = LocalDate.now();
         issuedDate = LocalDate.now();
     }
@@ -57,6 +58,7 @@ public class Books {
         return genre;
     }
 
+
     public void setGenre(Genre genre) {
         this.genre = genre;
     }
@@ -73,8 +75,8 @@ public class Books {
         return status;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setStatus(int status_id) {
+        this.status.id = status_id;
     }
 
     public LocalDate getReturnDate() {

@@ -97,7 +97,7 @@ public class UserServiceImpl implements UserService {
             if (user != null) {
                 // proceed with checkout
                 Status issuedStatus = statusRepo.findByName("Issued");
-                bookToCheckout.setStatus(issuedStatus);
+                bookToCheckout.setStatus(2);
                 user.getBooks().add(bookToCheckout);
                 bookRepo.save(bookToCheckout);
                 userRepo.save(user);

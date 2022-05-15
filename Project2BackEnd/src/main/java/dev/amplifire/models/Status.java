@@ -18,6 +18,11 @@ public class Status {
         name ="Available";
     }
 
+    public Status(int id, String status_name) {
+        this.id=id;
+        this.name= status_name;
+    }
+
     public int getId() {
         return id;
     }
